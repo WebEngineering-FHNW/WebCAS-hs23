@@ -39,9 +39,17 @@
 
         const myfun = fun1;
         const funs  = [null, undefined, fun1, fun2];
-        //
+
         testEquals(myfun(),   1 );
         testEquals(funs[2](), 1 );
+
+        const obj = {
+            greeting: "Hallo",
+            firstFunction: fun1,
+        };
+        testEquals(obj.greeting, "Hallo");
+        testEquals(obj.firstFunction(), 1 );
+
 
         function doit(whatToDo) {
             return function bla(arg) { return whatToDo(arg); }
