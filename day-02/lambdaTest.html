@@ -45,8 +45,9 @@
         testEquals(konst (id) (undefined) , (y => id)  (undefined)); // beta
         testEquals(konst (id) (undefined) , id  );
 
-        // const snd = x => y => y;         // id
-        // const snd = x => y => id(y);     // konst
+        // const snd = x => y => y;         // id, eta
+        // const snd = x => y => id(y);     // eta
+        // const snd = x => id;             // konst
         // const snd = x => konst(id)(x);   // eta
         const snd = konst(id);
         testEquals(snd (undefined) (id), id );
