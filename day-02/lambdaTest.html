@@ -5,10 +5,17 @@
     <title>Scope Tests</title>
 </head>
 <body>
+    <script src="../util/test.js"></script>
     <script>
+        badGlobal = 0;
+        const myFun = n => {
+            badGlobal = 1; // side effect
+            return n * 2;
+        };
+        testEquals(badGlobal, 0);
+        testEquals(myFun(2),  4);
+        testEquals(badGlobal, 1);
 
-        const id    = x   => x;
-        const fst = id => x => id;
 
 
 
