@@ -36,6 +36,21 @@
         };
         testEquals(goodFunction(2), 4);
 
+        const id = x => x;
+        testEquals(id(id), (x => x)(id)); // beta
+        testEquals(id(id), id);
+
+        const konst = x => y => x;
+        testEquals(konst (id) (undefined) , (x => y => x) (id) (undefined)); // beta
+        testEquals(konst (id) (undefined) , (y => id)  (undefined)); // beta
+        testEquals(konst (id) (undefined) , id  );
+
+        // const snd = x => y => y;         // id
+        // const snd = x => y => id(y);     // konst
+        // const snd = x => konst(id)(x);   // eta
+        const snd = konst(id);
+        testEquals(snd (undefined) (id), id );
+
 
     </script>
 </body>
