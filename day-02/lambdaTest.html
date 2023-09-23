@@ -16,7 +16,25 @@
         testEquals(myFun(2),  4);
         testEquals(badGlobal, 1);
 
+        function myOtherFunction(n) {
+            if (n < 5) {
+                var badVar = 2;
+            }
+            return n * badVar;
+        }
+        testEquals   (myOtherFunction(2),  4);
+        testNotEquals(myOtherFunction(10), 20);
 
+        const goodFunction = n => {
+            if (n <5 ) {
+                let goodVar = 1;
+                goodVar = 2;
+                testEquals(goodVar, 2);
+                return n * goodVar;
+            }
+            return n * goodVar; // terrible error
+        };
+        testEquals(goodFunction(2), 4);
 
 
     </script>
