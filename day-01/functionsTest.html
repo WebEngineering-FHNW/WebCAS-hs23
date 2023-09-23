@@ -7,14 +7,17 @@
 <body>
     <script>
 
-        const testReport = testResult => {
+        const testReport    = (actual, expected, evalFunction) => {
+            const testResult = evalFunction(actual, expected);
             if(testResult === false) {
-                console.error("test failed");
+                console.error("test failed, result was:", actual, "expected: ", expected);
             }
             document.writeln( String(testResult) );
         };
-        const testEquals    = (result, expected) => testReport(result === expected);
-        const testNotEquals = (result, expected) => testReport(result !== expected);
+        const equals        = (a, b) => a === b;
+        const notEquals     = (a, b) => a !== b;
+        const testEquals    = (result, expected) => testReport(result, expected, equals);
+        const testNotEquals = (result, expected) => testReport(result, expected, notEquals);
 
 
         function fun1()    { return 1; }
