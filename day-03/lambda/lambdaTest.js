@@ -31,6 +31,13 @@ ok.push( or(F)(F) === F );
 ok.push( or(T)(F) === T );
 ok.push( or(F)(T) === T );
 ok.push( or(T)(T) === T );
+
+// not
+ok.push( not(T) === F);
+ok.push( not(F) === T);
+
+
+
 /*
 // flip
 // flip(f)(x)(y) = f(y)(x)
@@ -41,10 +48,17 @@ ok.push( or(T)(T) === T );
 //
 // // Pair
 //
-const dierk = Pair("Dierk")("König"); // immutable
-ok.push( dierk(firstname) === "Dierk");
-ok.push( dierk(lastname)  === "König");
+*/
+const Person    = Pair;
+const firstname = fst;
+const lastname  = snd;
 
+const dierk  = Person ("Dierk") ("König"); // immutable, unkaputtbar
+ok.push(dierk(firstname) === "Dierk");
+ok.push(dierk(lastname)  === "König");
+
+
+/*
 
 // const tdierk = Triple("Dierk")("König")(50); // immutable
 // ok.push( tdierk(tfirstname) === "Dierk");
@@ -53,18 +67,22 @@ ok.push( dierk(lastname)  === "König");
 //
 
 // // either
+
+
+
 //
+*/
 const safeDiv = num => divisor =>
     divisor === 0
-    ? Left("schlecht!")
+    ? Left("Du darfst nicht durch null teilen!")
     : Right(num / divisor);
 
-( safeDiv(1)(1) )
+safeDiv(1)(1)
       ( x => console.error(x))
       ( x => console.log(x));
 
 
-*/
+
 // test result report
 if ( ok.every( elem => elem) ) {
     document.writeln("All "+ ok.length +" tests ok.");

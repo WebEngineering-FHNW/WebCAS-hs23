@@ -4,6 +4,12 @@ const snakeOk = [];
 //  before start, snake is in start position
     snakeOk.push(pairEq(snake[0]) (Pair(10)(5)));
 
+    const calculatedPair = pairPlus (Pair(1)(1)) (Pair(10)(5));
+    snakeOk.push( pairEq (calculatedPair) (Pair(11)(6)) );
+
+    const mappedPair = pairMap (x => x+1) (Pair(10)(5));
+    snakeOk.push( pairEq (mappedPair) (Pair(11)(6)) );
+
 
 //  after one step, snake has moved up
     nextBoard();
