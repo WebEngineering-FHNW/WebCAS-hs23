@@ -4,16 +4,16 @@
 let ok = [];
 
 // id
-ok.push( id(1) === 1 );
+ok.push( id(1)  === 1 );
 ok.push( id(id) === id );
 
 // konst
-ok.push( konst(42)(0) === 42 );
-ok.push( konst(42)(1) === 42 );
-ok.push( konst(42)(null) === 42 );
+ok.push( konst (42) (0)    === 42 );
+ok.push( konst (42) (1)    === 42 );
+ok.push( konst (42) (null) === 42 );
 
 // kite
-ok.push( snd(null)(42) === 42 );
+ok.push( snd (null) (42) === 42 );
 
 // true
 
@@ -31,7 +31,7 @@ ok.push( or(F)(F) === F );
 ok.push( or(T)(F) === T );
 ok.push( or(F)(T) === T );
 ok.push( or(T)(T) === T );
-
+/*
 // flip
 // flip(f)(x)(y) = f(y)(x)
 //
@@ -64,7 +64,7 @@ const safeDiv = num => divisor =>
       ( x => console.log(x));
 
 
-
+*/
 // test result report
 if ( ok.every( elem => elem) ) {
     document.writeln("All "+ ok.length +" tests ok.");
