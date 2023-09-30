@@ -5,15 +5,14 @@
     <title>All Tests</title>
 </head>
 <body>
+    <script>
+        const suites = [ "function", "lambda", "snake"];
+        suites.forEach( testName => {
+            document.writeln(`<script src="${testName}/${testName}.js"><`    +"/script>");
+            document.writeln(`<script src="${testName}/${testName}Test.js"><`+"/script>");
+        } );
 
-    <script src="function/function.js"></script>
-    <script src="function/functionTest.js"></script>
-
-    <script src="lambda/lambda.js"></script>
-    <script src="lambda/lambdaTest.js"></script>
-
-    <script src="snake/snake.js"></script>
-    <script src="snake/snakeTest.js"></script>
+    </script>
 
 
 </body>

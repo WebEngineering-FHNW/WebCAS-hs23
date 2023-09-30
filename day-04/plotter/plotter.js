@@ -5,10 +5,12 @@ const minY = -1;
 const maxY =  1;
 
 function start() {
-    const userFunction = document.getElementById('user_function');
-    const canvas       = document.getElementById('canvas');
+    const userFunctionElement = document.getElementById('user_function');
+    const canvas              = document.getElementById('canvas');
 
-    // todo: how to display?
+    const render = () => display(canvas, Function("x", "return " + userFunctionElement.value));
+    userFunctionElement.onchange = _event => render();
+    render();
 
 }
 
