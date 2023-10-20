@@ -47,27 +47,27 @@
 
 
 ( () => {
-    let ok = [];
+    const ok = [];
 
-    function Person(worker) {
+    const Person = worker => {
         const worklog  = [];
         return {
             worklog: worklog,
             work:    () => worklog.push(worker.work())
         }
-    }
+    };
 
     const manager = Person( {work: () => ""} );
     ok.push(manager.worklog.length ===  0);  // initially empty
     manager.work();
     ok.push(manager.worklog[0] ===  "");     // superclass impl
 
-    function Student(name) {
+    const Student = name => {
         return {
             name:  name,
             work:  () => name + " filled quiz"
         }
-    }
+    };
 
     const p = Person(Student("top"));
     ok.push(p.worklog.length ===  0);  // initially empty
@@ -79,18 +79,19 @@
 
 // todo: can you make the dk object an instanceof Person?
 ( () => {
-    let ok = [];
+    const ok = [];
 
     function Person(worker) {
         const worklog  = [];
-        const result = {
+        const person = {
             worklog: worklog,
             work:    () => worklog.push(worker.work())
         };
 
         // todo: fill here
+        Object.setPrototypeOf(person, Person.prototype);
 
-        return result
+        return person
     }
 
     const dk = Person( {work: () => ""} );

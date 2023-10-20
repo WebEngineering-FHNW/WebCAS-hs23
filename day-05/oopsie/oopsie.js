@@ -12,6 +12,19 @@
 
 // todo: Player constructor
 
+const Player = name => {
+    let fallbackIndex = 0;
+    let progressIndex = 0;
+    return {
+        getFallbackIndex : () => fallbackIndex,
+        getProgressIndex : () => progressIndex,
+        proceed          : stride => progressIndex = progressIndex + stride,
+        turn             : () => fallbackIndex = progressIndex,
+        fallback         : () => progressIndex = fallbackIndex,
+    };
+};
+
+
 function start() {
     const fields = document.getElementById('fields');
 

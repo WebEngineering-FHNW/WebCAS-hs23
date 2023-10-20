@@ -4,7 +4,7 @@
 
 // extending the prototype of many objects
 ( () => {
-    let ok = [];
+    const ok = [];
 
 
     const collect = [];
@@ -19,7 +19,7 @@
 }) ();
 
 ( () => {
-    let ok = [];
+    const ok = [];
 
 
 
