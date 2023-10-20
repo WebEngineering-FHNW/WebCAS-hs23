@@ -2,7 +2,7 @@
 // requires oopsie.js
 
 ( () => {
-    let ok = [];
+    const ok = [];
 
     const player1 = Player("Dierk");
     const player2 = Player("Florian");

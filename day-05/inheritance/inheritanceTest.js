@@ -2,7 +2,7 @@
 // requires /util/test.js
 
 ( () => {
-    let ok = [];
+    const ok = [];
 
     class Person { // refactoring Martin Fowler: replace inheritance with delegation
         constructor(name) {
@@ -10,17 +10,18 @@
             this.worklog = [];
         }
         mustDo() { // design pattern: template method
-            return ""
+            return "";
         }
         work() {
-            this.worklog.push(this.mustDo())
+            this.worklog.push(this.mustDo());
         }
     }
 
     const p = new Person("unknown");
     ok.push(p.worklog.length === 0);  // initially empty
     p.work();
-    ok.push(p.worklog[0] === "");     // superclass impl
+    ok.push(p.worklog.length === 1);  // has done something
+    ok.push(p.worklog[0]     === "");     // superclass impl
 
     class Student extends Person {
         mustDo() {
