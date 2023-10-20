@@ -10,7 +10,7 @@ const radius = 10;
 
 const balls = [ ] ;
 
-add = infected => evt => balls.push(
+const add = infected => evt => balls.push(
     {x: max / 2,               y: max / 2,
      dx: Math.random()*4 - 2 , dy: Math.random()*4 - 2 ,
      infected : infected } );
