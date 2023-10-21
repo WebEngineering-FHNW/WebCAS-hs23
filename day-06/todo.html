@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        table label {
+            display: none;
+        }
+        /*table {*/
+        /*    border-spacing:        2px;*/
+        /*    transform: translateX(-2px);*/
+        /*}*/
+        main {
+            margin-inline: auto;
+            max-width: 30rem;
+            padding:    1rem;
+            box-shadow: .2em .2em .4em 0 black;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <h1>Todo</h1>
+    <div></div>
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th><button id="plusButton">+</button></th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody id="container"></tbody>
+        </table>
+
+    </div>
+    <div>
+        <div>Tasks: <span id="tasks">0</span></div>
+        <div>Open:  <span>0</span></div>
+    </div>
+
+</main>
+
+<script>
+    let tNumber = 0;
+    const updateTasks = () => tasks.textContent = container.childNodes.length;
+    plusButton.onclick = evt => {
+        const tr = document.createElement("TR");
+        tr.innerHTML = `
+            <td><button id="t${tNumber}-removeButton">x</button></td>
+            <td>
+                <label for="t${tNumber}-text">todo text</label>
+                <input  id="t${tNumber}-text" type="text" value="some todo text">
+            </td>
+            <td>
+                <label for="t${tNumber}-done">done</label>
+                <input  id="t${tNumber}-done" type="checkbox">
+            </td>
+        `;
+        container.appendChild(tr);
+        const button = document.getElementById(`t${tNumber}-removeButton`);
+        button.onclick = evt => {
+            container.removeChild(tr);
+            updateTasks();
+        };
+        tNumber++;
+        updateTasks();
+    };
+</script>
+
+</body>
+</html>

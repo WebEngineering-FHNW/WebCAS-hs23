@@ -2,8 +2,18 @@
 
 // find a solution for suite, test, assert
 
-
-
+const Assert = () => {
+    const ok     = [];
+    const equals = (actual, expected, comment="") => {
+        const result = actual === expected;
+        ok.push(result);
+        if (false === result) {
+            console.error("assert equals failed in <"+ name+ ">. Expected <"+ expected+ "> but got <"+ actual +">. " + comment);
+        }
+    };
+    const getOk = () => ok;
+    return { equals, getOk }
+};
 
 /**
  * providing a scope and name for a test callback that fills the array
@@ -12,9 +22,9 @@
  * @param {function(Assert): void} callback
  */
 const test = (origin, callback) => {
-    // const assert = Assert();      //    das ok anlegen
-    // callback(assert);       //    das ok befüllen
-    // report(origin, assert.getOk()); //    report mit name und ok aufrufen
+    const assert = Assert();            //    das ok anlegen
+    callback(assert);                   //    das ok befüllen
+    report(origin, assert.getOk());     //    report mit name und ok aufrufen
 };
 
 
