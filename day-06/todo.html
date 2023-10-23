@@ -45,10 +45,13 @@
     </div>
 
 </main>
-
+<script src="Milestone_2/observable/observable.js"></script>
 <script>
     let tNumber = 0;
-    const updateTasks = () => tasks.textContent = container.childNodes.length;
+    const taskCount = Observable(0);
+
+    taskCount.onChange( count => tasks.textContent = count);
+
     plusButton.onclick = evt => {
         const tr = document.createElement("TR");
         tr.innerHTML = `
@@ -66,10 +69,10 @@
         const button = document.getElementById(`t${tNumber}-removeButton`);
         button.onclick = evt => {
             container.removeChild(tr);
-            updateTasks();
+            taskCount.setValue(taskCount.getValue()-1);
         };
         tNumber++;
-        updateTasks();
+        taskCount.setValue(taskCount.getValue()+1);
     };
 </script>
 
