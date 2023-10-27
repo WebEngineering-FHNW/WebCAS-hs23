@@ -7,7 +7,7 @@
 })();
 
 try { // test x is not in scope
-    x;
+    prom;
     document.writeln(false)
 } catch (e) {
     document.writeln(true)
