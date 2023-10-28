@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Iterator </title>
+
+</head>
+<body>
+
+<script >
+
+    const iterable = {
+        [Symbol.iterator] : () => {
+            let start = 0;
+            return {
+                next : () => {
+                    return { value: start++, done: false }
+                }
+            }
+        }
+    };
+    const [a,b,c] = iterable;
+    console.log(a,b,c);
+
+    // for(const i of iterable) {
+    //     console.log(i);
+    // }
+
+
+
+
+</script>
+
+</body>
+</html>
