@@ -2,5 +2,5 @@
 
 import './mod/modTest.js'
 import './util/utilTest.js'
-// import './crazyTest.js'
+import './crazyTest.js'
 

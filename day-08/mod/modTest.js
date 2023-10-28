@@ -1,6 +1,8 @@
 
-import { pi, a, b, setA, setB } from './mod.js'  // <- note the URL format !
+import { pi, a, b, setA , Mod} from './mod.js'  // <- note the URL format !
 import { Suite }                from '../util/test.js'
+
+const { setB } = Mod;
 
 const modSuite = Suite('mod');
 
@@ -16,7 +18,10 @@ modSuite.add("singleton", assert => {
     assert.is(b, null);
 
     setA("Dierk"); // there is no object exposed and so no target to attack
-    setB("König");
+
+    /** @type { String } */
+    let x;
+    x = setB("König");
 
     assert.is(a, "Dierk");
     assert.is(b, "König");
