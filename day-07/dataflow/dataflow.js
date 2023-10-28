@@ -29,10 +29,10 @@ const Scheduler = () => {
 
 // a dataflow abstraction that is not based on concurrency but on laziness
 
-const DataFlowVariable = howto => {
+const DataFlowVariable = fn => {
     let value = undefined;
-    return () => undefined === value
-                 ? value = howto()
-                 : value;
+    return  () => value === undefined
+                  ? value = fn()
+                  : value;
 };
 

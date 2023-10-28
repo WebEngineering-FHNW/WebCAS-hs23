@@ -3,9 +3,9 @@
 
 test("excel", assert => {
 
-    let tbody = document.createElement("TBODY");
+    const tbody = document.createElement("TBODY");
     tbody.setAttribute("ID","dataContainer");
-    let body = document.getElementsByTagName("BODY")[0];
+    const body = document.getElementsByTagName("BODY")[0];
     body.appendChild(tbody);
 
     startExcel();
