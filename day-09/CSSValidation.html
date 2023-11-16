@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSSValidation</title>
+    <style>
+
+    </style>
+</head>
+<body>
+
+Show various input types and how they validate.
+
+<form>
+    <label for="input01">text, search  </label>  <input id="input01" type="text" pattern="[a-z]*">
+    <label for="input02">list          </label>  <input id="input02" list="inputs" required >
+    <label for="input03">email         </label>  <input id="input03" type="email" >
+    <label for="input04">url           </label>  <input id="input04" type="url" >
+    <label for="input05">tel           </label>  <input id="input05" type="tel" >
+    <label for="input06">number        </label>  <input id="input06" type="number" >
+    <label for="input07">date          </label>  <input id="input07" type="date" >
+    <label for="input08">datetime-local</label>  <input id="input08" type="datetime-local" >
+    <label for="input09">time          </label>  <input id="input09" type="time" >
+    <label for="input10">week          </label>  <input id="input10" type="week" >
+    <label for="input11">month         </label>  <input id="input11" type="month" >
+    <label for="input12">color         </label>  <input id="input12" type="color" >
+    <label for="input13">Action:       </label>  <input id="input13" type="submit" >
+</form>
+
+<datalist id="inputs">
+  <option value="radio">
+  <option value="checkbox">
+  <option value="range">
+  <option value="other: select">
+  <option value="other: textarea">
+</datalist>
+
+
+</body>
+</html>
