@@ -1,5 +1,5 @@
-import { TodoController, TodoItemsView, TodoTotalView, TodoOpenView}  from "./todo.js"
-import { Suite }                from "../test/test.js";
+import {TodoController, TodoItemsView, TodoTotalView, TodoOpenView, TodoChartView} from "./todo.js";
+import { Suite }                                                                   from "../test/test.js";
 
 const todoSuite = Suite("todo");
 
@@ -11,6 +11,7 @@ todoSuite.add("todo-crud", assert => {
     numberOfTasks.textContent = '0';
     const openTasks = document.createElement("span");
     openTasks.textContent = '0';
+    const chartWrapperElement = document.createElement("div");
 
     const assertState = ({rows, tasks, open}) => {
         const elementsPerRow = 3;
@@ -18,17 +19,25 @@ todoSuite.add("todo-crud", assert => {
         assert.is(numberOfTasks.textContent, tasks);
         assert.is(openTasks.textContent, open);
     };
+    const getChartProgress = () =>
+        chartWrapperElement
+        .querySelector("div")
+        .style.getPropertyValue("--chart-divider");
+
     const todoController = TodoController();
 
     TodoItemsView(todoController, todoContainer);  // three views that share the same controller and thus model
     TodoTotalView(todoController, numberOfTasks);
     TodoOpenView (todoController, openTasks);
+    TodoChartView(todoController, chartWrapperElement);
 
     assertState({rows:0, tasks:'0', open:'0'});
+    assert.is(getChartProgress(), "0deg");
 
     todoController.addTodo();
 
     assertState({rows:1, tasks:'1', open:'1'});
+    assert.is(getChartProgress(), "0deg");
 
     todoController.addTodo();
 
@@ -40,6 +49,7 @@ todoSuite.add("todo-crud", assert => {
     firstCheckbox.click();
 
     assert.is(firstCheckbox.checked, true);
+    assert.is(getChartProgress(), "180deg");
 
     assertState({
         rows:  2,     // did not change

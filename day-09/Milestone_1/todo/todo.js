@@ -3,7 +3,7 @@ import { Attribute }      from "../presentationModel/presentationModel.js";
 import { Scheduler }      from "../dataflow/dataflow.js";
 import { fortuneService } from "./fortuneService.js";
 
-export { TodoController, TodoItemsView, TodoTotalView, TodoOpenView}
+export { TodoController, TodoItemsView, TodoTotalView, TodoOpenView, TodoChartView, chartStyle}
 
 const TodoController = () => {
 
@@ -18,7 +18,7 @@ const TodoController = () => {
             getText:            textObservable.getValue,
             setText:            textObservable.setValue,
             onTextChanged:      textObservable.onChange,
-            onTextValidChanged: textObservable.onChange,
+            onTextValidChanged: textObservable.onChange, // TODO ????
         }
     };
 
@@ -95,7 +95,7 @@ const TodoItemsView = (todoController, rootElement) => {
 
         todo.onTextValidChanged(
             valid => valid
-              ? inputElement.classList.remove("invalid")
+              ? inputElement.classList.remove("invalid") // TODO set custom validity
               : inputElement.classList.add("invalid")
         );
 
@@ -114,7 +114,7 @@ const TodoItemsView = (todoController, rootElement) => {
 const TodoTotalView = (todoController, numberOfTasksElement) => {
 
     const render = () =>
-        numberOfTasksElement.innerText = "" + todoController.numberOfTodos();
+        numberOfTasksElement.textContent = String(todoController.numberOfTodos());
 
     // binding
 
@@ -125,13 +125,49 @@ const TodoTotalView = (todoController, numberOfTasksElement) => {
 const TodoOpenView = (todoController, numberOfOpenTasksElement) => {
 
     const render = () =>
-        numberOfOpenTasksElement.innerText = "" + todoController.numberOfopenTasks();
+        numberOfOpenTasksElement.textContent = String(todoController.numberOfopenTasks());
 
     // binding
 
     todoController.onTodoAdd(todo => {
         render();
-        todo.onDoneChanged(render);
+        todo.onDoneChanged(render); // TODO should use the controller only
     });
     todoController.onTodoRemove(render);
 };
+
+const chartId = "Todo_chart_id4711";
+const TodoChartView = (todoController, chartWrapperElement) => {
+
+    const chartElement = document.createElement("DIV");
+    chartElement.setAttribute("id",chartId);
+    chartElement.style.setProperty("--chart-divider","0deg");
+    chartWrapperElement.appendChild(chartElement);
+
+    const render = () =>{
+        const s = 360 - 360 * todoController.numberOfopenTasks() / todoController.numberOfTodos();
+        chartElement.style.setProperty("--chart-divider", s + "deg");
+    };
+
+    // binding
+
+    todoController.onTodoAdd(todo => {
+        render();
+        todo.onDoneChanged(render); // TODO should use the controller only
+    });
+    todoController.onTodoRemove(render);
+};
+
+const chartStyle = `#${chartId} {
+            width: 20%;
+            aspect-ratio: 1 / 1;
+            background-color: black;
+            border-radius: 50%;
+            background-image: conic-gradient(
+                               green  0deg,
+                               green  var(--chart-divider),
+                               red var(--chart-divider),
+                               red 360deg);
+            transform: scaleY(0.7);
+            box-shadow: 0 .2em 0 .2em rebeccapurple;
+        }`;
