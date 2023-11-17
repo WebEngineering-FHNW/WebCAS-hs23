@@ -5,4 +5,4 @@ import './allTestsSuite.js'
 
 import { total } from "./test/test.js"
 
-document.getElementById('grossTotal').innerText = "" + total + " Tests";
+document.getElementById('grossTotal').textContent = "" + total + " Tests";

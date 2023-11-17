@@ -4,7 +4,27 @@
     <meta charset="UTF-8">
     <title>CSSValidation</title>
     <style>
-
+        form {
+            display: grid;
+            grid-template-columns: max-content max-content;
+        }
+        div {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: subgrid;
+            background-color: aqua;
+            padding: 2px;
+        }
+        label {
+            padding: 0 2em 0 0;
+        }
+        input:invalid {
+            color: red;
+            background-color: palegoldenrod;
+        }
+        form:invalid, fieldset:invalid {
+            outline: 2px solid red;
+        }
     </style>
 </head>
 <body>
@@ -18,11 +38,14 @@ Show various input types and how they validate.
     <label for="input04">url           </label>  <input id="input04" type="url" >
     <label for="input05">tel           </label>  <input id="input05" type="tel" >
     <label for="input06">number        </label>  <input id="input06" type="number" >
-    <label for="input07">date          </label>  <input id="input07" type="date" >
-    <label for="input08">datetime-local</label>  <input id="input08" type="datetime-local" >
-    <label for="input09">time          </label>  <input id="input09" type="time" >
-    <label for="input10">week          </label>  <input id="input10" type="week" >
-    <label for="input11">month         </label>  <input id="input11" type="month" >
+    <div>
+        <label for="input07">date          </label>  <input id="input07" type="date" required >
+        <label for="input08">datetime local</label>  <input id="input08" type="datetime-local" >
+        <label for="input09">time          </label>  <input id="input09" type="time" >
+        <label for="input10">week          </label>  <input id="input10" type="week" >
+        <label for="input11">month         </label>  <input id="input11" type="month" >
+    </div>
+
     <label for="input12">color         </label>  <input id="input12" type="color" >
     <label for="input13">Action:       </label>  <input id="input13" type="submit" >
 </form>
@@ -35,6 +58,16 @@ Show various input types and how they validate.
   <option value="other: textarea">
 </datalist>
 
+<script>
+    input05.oninput = evt => {
+        if(input05.value.startsWith("a")) {
+            input05.setCustomValidity("foo");
+        } else {
+            input05.setCustomValidity("");
+        }
+    }
+
+</script>
 
 </body>
 </html>
