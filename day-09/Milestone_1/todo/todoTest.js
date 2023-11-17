@@ -12,7 +12,7 @@ todoSuite.add("todo-crud", assert => {
     const openTasks = document.createElement("span");
     openTasks.textContent = '0';
 
-    const assertState = (rows, tasks, open) => {
+    const assertState = ({rows, tasks, open}) => {
         const elementsPerRow = 3;
         assert.is(todoContainer.children.length, rows * elementsPerRow);
         assert.is(numberOfTasks.textContent, tasks);
@@ -24,13 +24,15 @@ todoSuite.add("todo-crud", assert => {
     TodoTotalView(todoController, numberOfTasks);
     TodoOpenView (todoController, openTasks);
 
-    assertState(0, '0', '0');
+    assertState({rows:0, tasks:'0', open:'0'});
 
     todoController.addTodo();
-    assertState(1, '1', '1');
+
+    assertState({rows:1, tasks:'1', open:'1'});
 
     todoController.addTodo();
-    assertState(2, '2', '2');
+
+    assertState({rows:2, tasks:'2', open:'2'});
 
     const firstCheckbox = todoContainer.querySelectorAll("input[type=checkbox]")[0];
     assert.is(firstCheckbox.checked, false);
@@ -39,11 +41,11 @@ todoSuite.add("todo-crud", assert => {
 
     assert.is(firstCheckbox.checked, true);
 
-    assertState(
-        2,     // did not change
-        '2',   // did not change
-        '1'    // changed
-    );
+    assertState({
+        rows:  2,     // did not change
+        tasks: '2',   // did not change
+        open:  '1'    // changed
+    });
 
     // add a test for the deletion of a todo-item
 
@@ -51,18 +53,20 @@ todoSuite.add("todo-crud", assert => {
 
     const firstDeleteBtn = todoContainer.querySelectorAll("button.delete")[0];
     firstDeleteBtn.click();
-    assertState(
-        1,
-        '1',
-        '1'    // remains!
-    );
+
+    assertState({
+        rows:  1,
+        tasks: '1',
+        open:  '1'    // remains!
+    });
 
     // delete an unchecked item
 
     const secondDeleteBtn = todoContainer.querySelectorAll("button.delete")[0];
     secondDeleteBtn.click();
 
-    assertState(0, '0', '0' /* changes */ );
+    assertState({rows:  0, tasks: '0', open:  '0' /* changes */ })
+
 });
 
 todoSuite.add("todo-memory-leak", assert => {  // variant with remove-me callback
