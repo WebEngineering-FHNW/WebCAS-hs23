@@ -113,4 +113,35 @@ todoSuite.add("todo-memory-leak-2", assert => {  // variant with listener identi
     }
 });
 
+
+todoSuite.add("todo-controller", assert => {
+    const todoListController = TodoListController();
+
+    const todoControls = [] ;
+    todoListController.onTodoAdd( ctrl => todoControls.push(ctrl) );
+
+    const assertNumberOpen = (number, open) => {
+        assert.is(todoListController.numberOfTodos(),     number);
+        assert.is(todoListController.numberOfopenTasks(), open);
+    };
+
+    assertNumberOpen(0, 0);
+
+    todoListController.addTodo();
+    assertNumberOpen(1, 1);
+
+    todoListController.addTodo();
+    assertNumberOpen(2, 2);
+
+    todoControls[0].setDone(true);
+    assertNumberOpen(2, 1);
+
+    todoListController.removeTodo(todoControls[0]); // removing a done todoController
+    assertNumberOpen(1, 1);                         // does not reduce the open count
+
+    todoListController.removeTodo(todoControls[1]); // removing an open todoController
+    assertNumberOpen(0, 0);                         // reduces the open count
+
+});
+
 todoSuite.run();
