@@ -1,5 +1,5 @@
 
-import {TodoController,
+import {TodoListController,
     TodoOpenView,
     TodoTotalView,
     TodoItemsView,
@@ -11,7 +11,7 @@ const styleElement = document.createElement("STYLE");
 styleElement.innerHTML = chartStyle;
 document.head.appendChild(styleElement);
 
-const todoController = TodoController();
+const todoController = TodoListController();
 
 // binding of the main view
 

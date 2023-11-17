@@ -3,22 +3,47 @@ import { Attribute }      from "../presentationModel/presentationModel.js";
 import { Scheduler }      from "../dataflow/dataflow.js";
 import { fortuneService } from "./fortuneService.js";
 
-export { TodoController, TodoItemsView, TodoTotalView, TodoOpenView, TodoChartView, chartStyle}
+export { TodoListController, TodoItemsView, TodoTotalView, TodoOpenView, TodoChartView, chartStyle}
 
-const TodoController = () => {
+const TodoListController = () => {
 
-    const Todo = () => {                               // facade
-        const textObservable = Observable("text");
-        const doneObservable = Observable(false);
+    const TodoModel = () => {
+        const textObservable         = Observable("...");
+        const textValidObservable    = Observable(false);
+        const textEditableObservable = Observable(true);
+        const doneObservable         = Observable(false);
+        return {
+            textObservable,
+            doneObservable,
+            textValidObservable,
+            textEditableObservable
+        }
+    };
+
+    const TodoController = () => {
+        const { textObservable, doneObservable, textValidObservable,
+              textEditableObservable } = TodoModel();
+
+        textObservable.onChange( newText =>
+            textValidObservable.setValue(newText.length >= 4)
+        );
+        doneObservable.onChange( newDone =>
+            textEditableObservable.setValue(!newDone));
+
+        const setText = newText =>
+            textObservable.setValue(newText.toUpperCase());
 
         return {
             getDone:            doneObservable.getValue,
             setDone:            doneObservable.setValue,
             onDoneChanged:      doneObservable.onChange,
             getText:            textObservable.getValue,
-            setText:            textObservable.setValue,
+            setText:            setText,
             onTextChanged:      textObservable.onChange,
-            onTextValidChanged: textObservable.onChange, // TODO ????
+            getTextValid:       textValidObservable.getValue,
+            // setTextValid:       textValidObservable.setValue,
+            onTextValidChanged: textValidObservable.onChange,
+            onTextEditableChanged: textEditableObservable.onChange
         }
     };
 
@@ -26,14 +51,14 @@ const TodoController = () => {
     const scheduler = Scheduler();
 
     const addTodo = () => {
-        const newTodo = Todo();
+        const newTodo = TodoController();
         todoModel.add(newTodo);
         return newTodo;
     };
 
     const addFortuneTodo = () => {
 
-        const newTodo = Todo();
+        const newTodo = TodoController();
 
         todoModel.add(newTodo);
         newTodo.setText('...');
@@ -63,9 +88,9 @@ const TodoController = () => {
 
 // View-specific parts
 
-const TodoItemsView = (todoController, rootElement) => {
+const TodoItemsView = (todoListController, rootElement) => {
 
-    const render = todo => {
+    const render = todoController => {
 
         function createElements() {
             const template = document.createElement('DIV'); // only for parsing
@@ -78,25 +103,30 @@ const TodoItemsView = (todoController, rootElement) => {
         }
         const [deleteButton, inputElement, checkboxElement] = createElements();
 
-        checkboxElement.onclick = _ => todo.setDone(checkboxElement.checked);
-        deleteButton.onclick    = _ => todoController.removeTodo(todo);
+        checkboxElement.onclick = _ => todoController.setDone(checkboxElement.checked);
+        deleteButton.onclick    = _ => todoListController.removeTodo(todoController);
 
-        todoController.onTodoRemove( (removedTodo, _, removeMe) => {
-            if (removedTodo !== todo) return;
+        todoListController.onTodoRemove( (removedTodoController, _, removeMe) => {
+            if (removedTodoController !== todoController) return;
             rootElement.removeChild(inputElement);
             rootElement.removeChild(deleteButton);
             rootElement.removeChild(checkboxElement);
             removeMe();
         } );
 
-        inputElement.oninput = _ => todo.setText(inputElement.value);
+        inputElement.oninput = _ => todoController.setText(inputElement.value);
 
-        todo.onTextChanged(() => inputElement.value = todo.getText());
+        todoController.onTextChanged(() => inputElement.value = todoController.getText());
 
-        todo.onTextValidChanged(
+        todoController.onTextValidChanged(
             valid => valid
-              ? inputElement.classList.remove("invalid") // TODO set custom validity
-              : inputElement.classList.add("invalid")
+              ? inputElement.setCustomValidity("") // I know this is crazy....
+              : inputElement.setCustomValidity("must have more than 3 characters")
+        );
+        todoController.onTextEditableChanged(
+            editable => editable
+            ? inputElement.removeAttribute("disabled")
+            : inputElement.setAttribute("disabled", "ON")
         );
 
         rootElement.appendChild(deleteButton);
@@ -106,7 +136,7 @@ const TodoItemsView = (todoController, rootElement) => {
 
     // binding
 
-    todoController.onTodoAdd(render);
+    todoListController.onTodoAdd(render);
 
     // we do not expose anything as the view is totally passive.
 };
@@ -122,22 +152,22 @@ const TodoTotalView = (todoController, numberOfTasksElement) => {
     todoController.onTodoRemove(render);
 };
 
-const TodoOpenView = (todoController, numberOfOpenTasksElement) => {
+const TodoOpenView = (todoListController, numberOfOpenTasksElement) => {
 
     const render = () =>
-        numberOfOpenTasksElement.textContent = String(todoController.numberOfopenTasks());
+        numberOfOpenTasksElement.textContent = String(todoListController.numberOfopenTasks());
 
     // binding
 
-    todoController.onTodoAdd(todo => {
+    todoListController.onTodoAdd(todoController => {
         render();
-        todo.onDoneChanged(render); // TODO should use the controller only
+        todoController.onDoneChanged(render);
     });
-    todoController.onTodoRemove(render);
+    todoListController.onTodoRemove(render);
 };
 
 const chartId = "Todo_chart_id4711";
-const TodoChartView = (todoController, chartWrapperElement) => {
+const TodoChartView = (todoListController, chartWrapperElement) => {
 
     const chartElement = document.createElement("DIV");
     chartElement.setAttribute("id",chartId);
@@ -145,17 +175,17 @@ const TodoChartView = (todoController, chartWrapperElement) => {
     chartWrapperElement.appendChild(chartElement);
 
     const render = () =>{
-        const s = 360 - 360 * todoController.numberOfopenTasks() / todoController.numberOfTodos();
+        const s = 360 - 360 * todoListController.numberOfopenTasks() / todoListController.numberOfTodos();
         chartElement.style.setProperty("--chart-divider", s + "deg");
     };
 
     // binding
 
-    todoController.onTodoAdd(todo => {
+    todoListController.onTodoAdd(todoController => {
         render();
-        todo.onDoneChanged(render); // TODO should use the controller only
+        todoController.onDoneChanged(render);
     });
-    todoController.onTodoRemove(render);
+    todoListController.onTodoRemove(render);
 };
 
 const chartStyle = `#${chartId} {

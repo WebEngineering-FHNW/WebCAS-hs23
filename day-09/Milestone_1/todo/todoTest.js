@@ -1,5 +1,5 @@
-import {TodoController, TodoItemsView, TodoTotalView, TodoOpenView, TodoChartView} from "./todo.js";
-import { Suite }                                                                   from "../test/test.js";
+import {TodoListController, TodoItemsView, TodoTotalView, TodoOpenView, TodoChartView} from "./todo.js";
+import { Suite }                                                                       from "../test/test.js";
 
 const todoSuite = Suite("todo");
 
@@ -24,7 +24,7 @@ todoSuite.add("todo-crud", assert => {
         .querySelector("div")
         .style.getPropertyValue("--chart-divider");
 
-    const todoController = TodoController();
+    const todoController = TodoListController();
 
     TodoItemsView(todoController, todoContainer);  // three views that share the same controller and thus model
     TodoTotalView(todoController, numberOfTasks);
@@ -80,7 +80,7 @@ todoSuite.add("todo-crud", assert => {
 });
 
 todoSuite.add("todo-memory-leak", assert => {  // variant with remove-me callback
-    const todoController = TodoController();
+    const todoController = TodoListController();
 
     todoController.onTodoAdd(todo => {
        todoController.onTodoRemove( (todo, _, removeMe) => {
@@ -95,7 +95,7 @@ todoSuite.add("todo-memory-leak", assert => {  // variant with remove-me callbac
 });
 
 todoSuite.add("todo-memory-leak-2", assert => {  // variant with listener identity
-    const todoController = TodoController();
+    const todoController = TodoListController();
 
     todoController.onTodoAdd(todo => {
 
