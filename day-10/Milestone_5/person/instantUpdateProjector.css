@@ -47,3 +47,9 @@ input.invalid {
 .selected {
     box-shadow: 0 0 0.2em gold;
 }
+div.selected {
+    outline: 3px solid blue;
+    outline-offset: -2px;
+    box-shadow: unset;
+}
+
