@@ -41,7 +41,7 @@ const listItemProjector = (masterController, selectionController, rootElement, m
         rootElement.classList.add(masterClassName);
         const columStyle = '1.7em '+ attributeNames.map(x=>'auto').join(' ');
         rootElement.style['grid-template-columns'] = columStyle;
-    };
+    }
 
     const deleteButton      = document.createElement("Button");
     deleteButton.setAttribute("class","delete");
@@ -90,8 +90,8 @@ const formProjector = (detailController, rootElement, model, attributeNames) => 
         labelElement.setAttribute("for", attributeName);
         const inputElement = document.createElement("INPUT");
         inputElement.setAttribute("TYPE", "text");
-        inputElement.setAttribute("SIZE", "20");
-        inputElement.setAttribute("ID", attributeName);
+        inputElement.setAttribute("SIZE", "20");        // make this observable?
+        inputElement.setAttribute("ID", attributeName); // make this unique in case of multiple forms
         detailFormElement.appendChild(labelElement);
         detailFormElement.appendChild(inputElement);
 

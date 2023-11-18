@@ -1,4 +1,4 @@
-import { Attribute, LABEL }                                 from "../presentationModel/presentationModel.js";
+import { Attribute, LABEL, EDITABLE }                                 from "../presentationModel/presentationModel.js";
 import { listItemProjector, formProjector, pageCss }        from "./instantUpdateProjector.js";
 // import { listItemProjector, formProjector, pageCss }        from "./tableProjector.js";
 
@@ -9,7 +9,7 @@ const style = document.createElement("STYLE");
 style.innerHTML = pageCss;
 document.head.appendChild(style);
 
-const ALL_ATTRIBUTE_NAMES = ['firstname', 'lastname'];
+const ALL_ATTRIBUTE_NAMES = ['firstname', 'lastname', 'birthdate'];
 
 const Person = () => {                               // facade
     const firstnameAttr = Attribute("Monika");
@@ -18,14 +18,18 @@ const Person = () => {                               // facade
     const lastnameAttr  = Attribute("Mustermann");
     lastnameAttr.getObs(LABEL).setValue("Last Name");
 
+    const birthAttr  = Attribute("1968-04-19");
+    birthAttr.getObs(LABEL).setValue("Birthdate");
+
     // 1) commented out since we do not use this at the moment
     // 2) un-comment in case you need some converters or validators
-    // lastnameAttr.setConverter( input => input.toUpperCase() );
-    // lastnameAttr.setValidator( input => input.length >= 3   );
+    lastnameAttr.setConverter( input => input.toUpperCase() );
+    lastnameAttr.setValidator( input => input.length >= 3   );
 
     return {
         firstname:          firstnameAttr,
         lastname:           lastnameAttr,
+        birthdate:          birthAttr
     }
 };
 
@@ -42,8 +46,10 @@ const MasterView = (listController, selectionController, rootElement) => {
 
 const NoPerson = (() => { // one time creation, singleton
     const johnDoe = Person();
-    johnDoe.firstname.setConvertedValue("");
-    johnDoe.lastname.setConvertedValue("");
+    ALL_ATTRIBUTE_NAMES.forEach(propertyName => {
+        johnDoe[propertyName].setConvertedValue("");
+        johnDoe[propertyName].getObs(EDITABLE).setValue(false);
+    });
     return johnDoe;
 })();
 
