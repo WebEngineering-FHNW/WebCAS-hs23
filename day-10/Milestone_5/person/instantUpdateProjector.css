@@ -9,13 +9,12 @@
 h1 {
     text-align: center;
 }
-.holder {
-    margin: 0 3em 0 3em;
-}
+
 input[type=text] {
     font-size:      1.1em;
     color:          darkblue;
     border-width:   0 0 1px 0;
+    border-color:   lightgray;
 
     background-image:    linear-gradient(orange, orange);
     background-position: left bottom;
@@ -47,9 +46,18 @@ input.invalid {
 .selected {
     box-shadow: 0 0 0.2em gold;
 }
+
+/* in case the selection covers an entire div like for the subgrid projector */
 div.selected {
-    outline: 3px solid blue;
-    outline-offset: -2px;
+    position: relative;
     box-shadow: unset;
+}
+div.selected::before {
+    content: "";
+    position: absolute;
+    inset: 1px 0 ;
+    border-radius: 0.5em;
+    pointer-events: none;
+    background-color: hsla(45, 100%, 50%, 20%);
 }
 

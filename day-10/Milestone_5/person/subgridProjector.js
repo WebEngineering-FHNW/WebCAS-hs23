@@ -2,8 +2,10 @@ import {EDITABLE, LABEL, VALID, VALUE} from "../presentationModel/presentationMo
 
 export { listItemProjector, formProjector, pageCss }
 
-const masterClassName = 'subgrid-master'; // should be unique for this projector
-const detailClassName = 'subgrid-detail';
+// should be unique for this projector
+const classNameMasterGrid    = 'subgrid-master-grid';
+const classNameMasterRow     = 'subgrid-master-row';
+const classNameDetail        = 'subgrid-detail';
 
 // this might move to a general place
 const bindTextInput = (textAttr, inputElement) => {
@@ -38,17 +40,11 @@ const textInputProjector = textAttr => {
 
 const listItemProjector = (masterController, selectionController, rootElement, model, attributeNames) => {
 
-    if(true) { // only set this on first render
-        rootElement.classList.add(masterClassName);
-        rootElement.style.setProperty("--attribute-count",attributeNames.length );
-    }
+    rootElement.classList.add(classNameMasterGrid);
+    rootElement.style.setProperty("--attribute-count",attributeNames.length );
 
     const rowElement = document.createElement("DIV");
-    rowElement.setAttribute("style", `
-        display: grid; 
-        grid-column: 1 / -1; 
-        grid-template-columns: subgrid; 
-        `);
+    rowElement.classList.add(classNameMasterRow);
 
     const deleteButton      = document.createElement("Button");
     deleteButton.setAttribute("class","delete");
@@ -87,10 +83,10 @@ const formProjector = (detailController, rootElement, model, attributeNames) => 
     const divElement = document.createElement("DIV");
     divElement.innerHTML = `
     <FORM>
-        <DIV class="${detailClassName}">
+        <DIV class="${classNameDetail}">
         </DIV>
     </FORM>`;
-    const detailFormElement = divElement.querySelector("." + detailClassName);
+    const detailFormElement = divElement.querySelector("." + classNameDetail);
 
     attributeNames.forEach(attributeName => {
         const labelElement = document.createElement("LABEL"); // add view for attribute of this name
@@ -115,14 +111,21 @@ const formProjector = (detailController, rootElement, model, attributeNames) => 
 
 
 const pageCss = `
-    .${masterClassName} {
+    .${classNameMasterGrid} {
         display:        grid;
         grid-column-gap: 0.5em;
-        grid-template-columns: 1.7em repeat(var(--attribute-count, 1), auto);
+        grid-template-columns: 1.7em repeat(var(--attribute-count, 1), minmax(min(4em, 100%), 1fr));
         margin-bottom:  0.5em ;
         overflow:       hidden;
     }
-    .${detailClassName} {
+    
+    .${classNameMasterRow} {
+        display: grid; 
+        grid-column: 1 / -1; 
+        grid-template-columns: subgrid; 
+    }
+        
+    .${classNameDetail} {
         display:        grid;
         grid-column-gap: 0.5em;
         grid-template-columns: 1fr 3fr;
