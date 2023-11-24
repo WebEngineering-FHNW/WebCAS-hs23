@@ -35,17 +35,47 @@
         div {
             background: yellow;
         }
-        div.cool {
+        .cool {
             background: orange;
         }
-        div#one {
+
+        #one {
             background: red;
+        }
+        div::before {
+            content: "";
+            border-style: solid;
+            border-color: yellow transparent transparent transparent;
+            border-width: 2em;
+        }
+        #one::after {
+            content: " after";
+        }
+
+        :where(h1, h2 ) {
+            color: blue;
+        }
+        h2 {
+            font-weight: lighter;
+            & .foo {
+                text-decoration: underline;
+            }
+
+        }
+        h2:hover:hover {
+            background-color: blue;
         }
 
     </style>
 </head>
 <body>
 
+aöskdfj
+
+<h1>mein h1</h1>
+<h2>mein h2
+    <span class="foo">inside h2</span>
+</h2>
 
 <main>
     <div>
