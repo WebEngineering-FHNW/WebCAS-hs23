@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>
+        Jokes
+    </title>
+    <script>
+        function getJokes() {
+            const url = "./ExampleJoke.json";
+            fetch(url)
+                .then( resp => resp.ok ? resp.json() : {joke: 'no joke'} )
+                .then( json => {
+                    // console.log(json);
+                    let text = json.joke;
+                    if (json.type === "twopart") {
+                        text = json.setup + " - "+ json.delivery;
+                    }
+                    document.getElementById("target").innerText = text ;
+                 })
+                .catch( err => console.log(err));
+        }
+    </script>
+</head>
+<body>
+<h1>
+    Programmer jokes from <a href="https://v2.jokeapi.dev/">jokeapi</a>
+</h1>
+
+<button onclick="getJokes();">Next</button>
+
+<div id="target">
+    fetching ...
+</div>
+
+<script>
+    getJokes(); // initial load
+</script>
+
+</body>
+</html>

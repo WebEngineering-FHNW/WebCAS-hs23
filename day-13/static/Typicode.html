@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>
+        typicode
+    </title>
+    <script>
+        function getREST() {
+            fetch('https://jsonplaceholder.typicode.com/todos/1')
+                .then(response => response.json())
+                .then(json => document.getElementById('target').innerHTML = JSON.stringify(json));
+        }
+    </script>
+</head>
+<body>
+<h1>
+    Testing from <a href="https://jsonplaceholder.typicode.com/">typicode</a>
+</h1>
+
+<button onclick="getREST();">Get</button>
+
+<div id="target">
+
+</div>
+
+
+</body>
+</html>
