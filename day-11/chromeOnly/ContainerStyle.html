@@ -8,7 +8,7 @@
             /*color: blue; syntax error  a container */
             div {
                 color: red;
-                /*transform: rotate(var(--my-var));     doesn't work, it is not a degree */
+                /*transform: rotate(var(--my-var));     doesn't work, it is not a degree*/
                 /*transform: rotate(var(--my-var)deg);  doesn't work, because token resolution is not a string eval */
                 transform: rotate( calc( var(--my-var) * 1deg));  /* trick of the day */
             }

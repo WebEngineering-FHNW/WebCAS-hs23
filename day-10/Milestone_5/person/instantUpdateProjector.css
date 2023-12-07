@@ -1,6 +1,6 @@
 
 .card {
-    max-width:  40em;
+    width:      clamp(20em, 80%, 100%);
     margin:     1em auto 4em auto;
     padding:    2em;
     box-shadow: 0 4px  8px 0 rgba(0, 0, 0, 0.2),

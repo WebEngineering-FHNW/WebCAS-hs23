@@ -28,6 +28,16 @@
             background: #9ae69c88;
             padding: 1em;
             border-radius: 2em;
+            position: relative;
+        }
+        .rainbow::before {
+            content: "";
+            position: absolute;
+            inset: -.4em;
+            filter: blur(.4em);
+            border-radius: inherit;
+            background-image: linear-gradient(90deg, blueviolet, blue, green, yellow, orange, red);
+            z-index: -1;
         }
 
     </style>

@@ -239,6 +239,7 @@
     colorInput.oninput = _evt => {
         document.querySelectorAll('.colored').forEach( elem =>
             elem.style.setProperty("--hue-background-base", colorInput.value)
+            // elem.style["--hue-background-base"] = colorInput.value // doesn't work
         );
         hue.textContent = colorInput.value;
     }

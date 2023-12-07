@@ -7,10 +7,13 @@
 
         #grid-container  {
             display: grid;
-            grid-template-columns: max-content max-content;
+            grid-template-columns: 1fr 2fr;
             gap: 1em;
             align-items: center;
-            justify-items: flex-end;
+            justify-items: right;
+        }
+        #grid-container * {
+            outline: 2px solid limegreen;
         }
 
     </style>
