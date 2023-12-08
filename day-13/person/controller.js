@@ -1,8 +1,8 @@
 /**
  * @module Controllers as shallow wrappers around observables
  */
-import { ObservableList, Observable }   from "../observable/observable.js";
-import { reset, Person }                from "./person.js"
+import { ObservableList, Observable }       from "../observable/observable.js";
+import {reset, Person, ALL_ATTRIBUTE_NAMES} from "./person.js"
 
 export { ListController, SelectionController }
 
@@ -19,8 +19,9 @@ const ListController = modelConstructor => {
 };
 
 const noSelection = reset(Person());
-noSelection.firstname.setQualifier("Person.none.firstname");
-noSelection.lastname .setQualifier("Person.none.lastname");
+ALL_ATTRIBUTE_NAMES.forEach( attrName =>
+    noSelection[attrName].setQualifier("Person.none."+attrName)
+);
 
 const SelectionController = model => {
 

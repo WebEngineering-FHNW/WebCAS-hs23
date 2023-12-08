@@ -47,8 +47,9 @@ const MasterView = (listController, selectionController, rootElement) => {
     listController.onModelAdd(render);
     listController.onModelRemove( (removedModel, removeMe) => {
         removeListItemForModel(ALL_ATTRIBUTE_NAMES)(removedModel);
-        removedModel.firstname.setQualifier(undefined); // remove model attributes from model world
-        removedModel.lastname.setQualifier(undefined);  // this could become more convenient
+        ALL_ATTRIBUTE_NAMES.forEach( attrName =>           // remove model attributes from model world
+            removedModel[attrName].setQualifier(undefined)
+        );
         selectionController.clearSelection();
     });
     selectionController.onModelSelected(selectListItemForModel(ALL_ATTRIBUTE_NAMES));
