@@ -1,5 +1,6 @@
 import {Attribute, LABEL, VALUE} from "../presentationModel/presentationModel.js";
 import {formProjector, listItemProjector, selectListItemForModel, removeListItemForModel, pageCss} from "./instantUpdateProjector.js";
+import {EDITABLE} from "../../day-10/Milestone_5/presentationModel/presentationModel.js";
 
 export { MasterView, DetailView, Person, selectionMold, reset, ALL_ATTRIBUTE_NAMES }
 
@@ -8,7 +9,7 @@ const style = document.createElement("STYLE");
 style.innerHTML = pageCss;
 document.head.appendChild(style);
 
-const ALL_ATTRIBUTE_NAMES = ['firstname', 'lastname'];
+const ALL_ATTRIBUTE_NAMES = ['firstname', 'lastname', 'birthday'];
 
 let idCounter = 0;
 const nextId = () => idCounter++;
@@ -21,13 +22,17 @@ const Person = () => {                               // facade
     const lastnameAttr  = Attribute("Mustermann", `Person.${id}.lastname`);
     lastnameAttr.getObs(LABEL).setValue("Last Name");
 
+    const birthdayAttr  = Attribute("1968-04-19", `Person.${id}.birthdate`);
+    birthdayAttr.getObs(LABEL).setValue("Birthday");
+
     lastnameAttr.setConverter( input => input.toUpperCase() );  // enable for playing around
     lastnameAttr.setValidator( input => input.length >= 3   );
 
     return {
         firstname:          firstnameAttr,
         lastname:           lastnameAttr,
-        toString: () => firstnameAttr.getObs(VALUE).getValue() + " " + lastnameAttr.getObs(VALUE).getValue(),
+        birthday:           birthdayAttr,
+        toString: () => firstnameAttr.getObs(VALUE).getValue() + " " + birthdayAttr.getObs(VALUE).getValue(),
     }
 };
 
@@ -50,10 +55,11 @@ const MasterView = (listController, selectionController, rootElement) => {
 };
 
 const reset = person => {
-    person.firstname.setQualifier(undefined);  // todo: make generic, unset all qualifiers
-    person.lastname.setQualifier(undefined);
-    person.firstname.setConvertedValue("");
-    person.lastname.setConvertedValue("");
+    ALL_ATTRIBUTE_NAMES.forEach(propertyName => {
+        person[propertyName].setConvertedValue("");
+        person[propertyName].getObs(EDITABLE).setValue(false);
+        person[propertyName].setQualifier(undefined);
+    });
     return person;
 };
 
@@ -63,14 +69,7 @@ const DetailView = (selectionController, rootElement) => {
 
     formProjector(selectionController, rootElement, selectionMold, ALL_ATTRIBUTE_NAMES); // only once, view is stable, binding is stable
 
-    selectionController.onModelSelected( selectedPersonModel => { // todo: make this generic
-        // set the qualifiers to connect detailModel with current selection
-        // todo: set the values for _all_ observables
-
-        selectionMold.lastname.setQualifier(selectedPersonModel.lastname.getQualifier());
-        // selectionMold.lastname.getObs(VALUE).setValue(selectedPersonModel.lastname.getObs(VALUE).getValue());
-
-        selectionMold.firstname.setQualifier(selectedPersonModel.firstname.getQualifier());
-        // selectionMold.firstname.getObs(VALUE).setValue(selectedPersonModel.firstname.getObs(VALUE).getValue());
-    });
+    selectionController.onModelSelected( selectedModel =>
+        ALL_ATTRIBUTE_NAMES.forEach(attrName =>
+            selectionMold[attrName].setQualifier(selectedModel[attrName].getQualifier())));
 };
