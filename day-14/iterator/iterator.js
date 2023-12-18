@@ -1,4 +1,25 @@
-export { Iterator, Fib }
+export { Iterator, Fib , MyIterator}
+
+const MyIterator = {
+    [Symbol.iterator]:
+        () => {
+        let value  = 0;
+        return {
+                next: () => {
+                    value++;
+                    return {value:value, done: false}
+                }
+            }
+        }
+};
+console.log("hi");
+for (const x of MyIterator) {
+    if(x > 100) break;
+    if(x < 90)  continue;
+    console.log(x);
+}
+
+
 
 const Iterator = (startValue, whileFn, incrementFn) => {
     const next = () => {
@@ -15,7 +36,6 @@ const Iterator = (startValue, whileFn, incrementFn) => {
         [Symbol.iterator]: () => ({ next })
     };
 };
-
 
 const Fib = n => {
     let prev = 1;

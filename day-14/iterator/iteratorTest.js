@@ -1,5 +1,6 @@
 import { TestSuite }   from "../../src/kolibri/util/test.js";
 import {Fib, Iterator} from "./iterator.js";
+import "./iterator.js";
 
 const suite = TestSuite("iterator");
 

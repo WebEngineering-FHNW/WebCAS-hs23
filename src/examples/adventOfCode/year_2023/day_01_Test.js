@@ -11,6 +11,7 @@ suite.add("example1", assert => {
         pqr3stu8vwx
         a1b2c3d4e5f
         treb7uchet
+        trebuchet
     `;
     assert.is(day1a(input), 12 + 38 + 15 + 77);
 

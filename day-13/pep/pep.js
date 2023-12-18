@@ -44,7 +44,7 @@ const start = (appRootId, devArray) => {
 
     const newAssignmentCommand = assignment => {
         assignmentController.addAssignment(assignment); // we add both but qualifiers keep them in sync
-        staffingController.addAssignment(assignment);
+        staffingController  .addAssignment(assignment);
     };
 
     const render = () => {

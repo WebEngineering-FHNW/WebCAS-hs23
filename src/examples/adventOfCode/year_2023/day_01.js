@@ -10,6 +10,7 @@ export { day1a, day1b }
 const sumFirstAndLastDigits = wordSeq =>
     wordSeq
          .map    (line   => Seq(...line).takeWhere(c => c >= '0' && c <= '9'))
+         .dropWhere ( digits => digits.isEmpty())
          .map    (digits => digits.head() + digits.reverse$().head())
          .foldr$ (sum, 0);
 
